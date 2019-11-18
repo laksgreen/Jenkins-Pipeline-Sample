@@ -1,0 +1,41 @@
+pipeline {
+    agent any 
+	parameters { 
+	    choice(name: 'action', choices: ['create', 'destroy'], description: 'Choose create or destroy')
+	    string(name: 'env', defaultValue: '', description: '')
+	    booleanParam( defaultValue: true, name: 'Boolean-value' )
+	}
+
+stages {
+		stage ('Git-Clone') {
+			steps {
+			    withCredentials([usernameColonPassword(credentialsId: 'credentialsId', variable: 'TOKEN')]) {
+				  sh '''
+						echo "Clone the Git repository"
+            git clone --single-branch --branch branch-name https://github.com/laksgreen/URL-validator
+           '''
+			    }
+			}
+		}
+	 stage ('Env-Creation') {
+		 steps {
+            build job : 'Another-Job' 
+            }
+         }
+	  stage ('qa-deploy') {
+      steps {
+          script {
+                   qadeploy(params.qa-deploy)
+                 }
+             }
+         }
+     }	  
+}
+def qadeploy(def qa-deploy=false) {
+  if ( params.qa-deploy == true ) {
+       build job : 'qa-deploy', parameters: [string(name: 'action', value: "${params.action}"),string(name: 'env', value: "${params.env}")]
+       echo "QA-Deployed"
+    } else {
+        echo "QA deployment is not done"
+	}
+}
