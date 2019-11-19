@@ -1,5 +1,10 @@
 #!groovy
 node {
+	parameters { 
+	    choice(name: 'action', choices: ['create', 'destroy'], description: 'Choose create or destroy')
+	    string(name: 'env', defaultValue: '', description: '')
+	    booleanParam( defaultValue: true, name: 'Boolean-value' )
+	}
         stage('STAGE-1') {
                 sh 'echo "testing1......"'
                 sh ''' #!/bin/bash
