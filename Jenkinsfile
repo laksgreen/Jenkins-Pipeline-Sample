@@ -4,6 +4,7 @@ node {
                 sh 'echo "testing1......"'
                 sh ''' #!/bin/bash
 			echo "Clone the Git repository"
+			rm -rf ${WORKSPACE}/turicreate
                    	git clone --single-branch --branch master https://github.com/laksgreen/turicreate.git
                 '''
     }
