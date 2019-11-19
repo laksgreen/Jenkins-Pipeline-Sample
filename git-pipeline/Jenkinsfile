@@ -1,0 +1,31 @@
+pipline {
+    agent any 
+	parameters { 
+	    choice(name: 'action', choices: ['create', 'destroy'], description: 'Choose create or destroy')
+	    string(name: 'env', defaultValue: '', description: '')
+	    booleanParam( defaultValue: true, name: 'Boolean-value' )
+	}
+
+     stages {
+	stage ('Git-Clone') {
+		steps {
+		    withCredentials([usernameColonPassword(credentialsId: 'credentialsId', variable: 'TOKEN')]) {
+		       sh '''
+			echo "Clone the Git repository"
+                   	git clone --single-branch --branch branch-name https://github.com/laksgreen/Jenkins-Pipeline-Sample
+                    	'''
+		    }
+		}
+	  }
+
+	stage ('Env-Creation') {
+		 steps {
+                	echo 'Hello world!'
+	                echo "mesage: ${params.action}"
+			echo "message: ${params.env}"
+        	        echo "param2: ${params.env}"
+                	sh 'ls -la'    
+            	} 
+          }
+     }	  
+}
