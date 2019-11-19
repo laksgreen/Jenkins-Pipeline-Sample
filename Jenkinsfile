@@ -1,10 +1,12 @@
 #!groovy
-node {
+pipeline {
+  agent any
 	parameters { 
 	    choice(name: 'action', choices: ['create', 'destroy'], description: 'Choose create or destroy')
 	    string(name: 'env', defaultValue: '', description: '')
 	    booleanParam( defaultValue: true, name: 'Boolean-value' )
 	}
+	stages {
         stage('STAGE-1') {
                 sh 'echo "testing1......"'
                 sh ''' #!/bin/bash
@@ -20,5 +22,6 @@ node {
                echo 'Hello world!'
                echo "mesage: ${params.action}"
 	       echo "message: ${params.env}"
-  }
+	 }
+     }
 }
