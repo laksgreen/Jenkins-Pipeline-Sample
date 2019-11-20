@@ -2,8 +2,8 @@
 pipeline {
   agent any
 	parameters { 
-	    choice(name: 'action', choices: ['create', 'destroy'], description: 'Choose create or destroy')
-	    string(name: 'env', defaultValue: '', description: '')
+	    choice(name: 'test', choices: ['create', 'destroy'], description: 'Choose create or destroy')
+	    string(name: 'value', defaultValue: '', description: '')
 	    booleanParam( defaultValue: true, name: 'Boolean-value' )
 	}
 	stages {
