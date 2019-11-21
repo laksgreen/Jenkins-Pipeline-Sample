@@ -1,0 +1,67 @@
+#!groovy
+pipeline {
+     agent any 
+     stages {
+         stage ('stageName-1') {
+             steps {
+                 build job : 'Jenkins-Job-1',	parameters:
+                  [
+                  [$class: 'StringParameterValue', name: 'action', value: "${params.action}"],
+                  [$class: 'StringParameterValue', name: 'User_Name', value: "${params.User_Name}"],
+                  [$class: 'StringParameterValue', name: 'Env_Name', value: "${params.Env_Name}"]
+                ]  
+             }
+         }
+         stage ('stageName-2') {
+             steps {
+                  script {
+                   Jenkins-Job-2(params.Jenkins-Job-2)
+                 }
+             }
+         }
+         stage ('stageName-3') {
+             steps {
+                  script {
+                   Jenkins-Job-3(params.Jenkins-Job-3)
+                 }
+             }
+         }
+      	 stage ('stageName-4') {
+             steps {
+                 build job : 'Jenkins-Job-4',	parameters:
+                 [
+                    [$class: 'StringParameterValue', name: 'User_Name', value: "${params.User_Name}" ],
+                    [ $class: 'StringParameterValue', name: 'Env_Name', value: "${params.Env_Name}" ]
+                 ]  
+             }
+         }
+     }
+   }
+def Jenkins-Job-2(def Jenkins-Job-2=false) {
+  if ( params.Jenkins-Job-2== true ) {
+       build job : 'Jenkins-Job-2'
+       echo "---Jenkins-Job-2 build is completed---"
+    } else {
+        echo "---Jenkins-Job-2 build is not completed---"
+	} 	
+}
+def Jenkins-Job-3(def Jenkins-Job-3=false) {
+  if ( params.Jenkins-Job-3== true ) {
+       build job : 'Jenkins-Job-3',
+       	parameters: [
+			[
+			$class: 'StringParameterValue',
+			name: 'User_Name',
+			value: "${params.User_Name}"
+			],
+			[
+			$class: 'StringParameterValue',
+			name: 'Env_Name',
+			value: "${params.Env_Name}"
+			]
+		]
+       echo "---Jenkins-Job-3 build is completed---"
+    } else {
+        echo "---Jenkins-Job-3 build is not completed---"
+	}
+}
